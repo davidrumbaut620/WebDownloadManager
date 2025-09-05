@@ -1,0 +1,463 @@
+/* Apple-style Design System */
+:root {
+    --apple-blue: #007AFF;
+    --apple-gray: #8E8E93;
+    --apple-light-gray: #F2F2F7;
+    --apple-dark-gray: #1C1C1E;
+    --apple-green: #34C759;
+    --apple-red: #FF3B30;
+    --apple-orange: #FF9500;
+    --apple-purple: #AF52DE;
+    --apple-pink: #FF2D92;
+    --apple-teal: #5AC8FA;
+    --apple-indigo: #5856D6;
+    --apple-yellow: #FFCC00;
+    
+    --border-radius: 12px;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #ffffff;
+    color: var(--apple-dark-gray);
+    line-height: 1.6;
+}
+
+/* Navigation */
+.navbar {
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.navbar-brand {
+    font-size: 1.25rem;
+    color: var(--apple-dark-gray) !important;
+}
+
+/* Cards */
+.apple-card {
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+}
+
+.apple-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+}
+
+/* Form Controls */
+.form-control {
+    border-radius: 10px;
+    border: 1px solid #E5E5EA;
+    padding: 12px 16px;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.form-control:focus {
+    border-color: var(--apple-blue);
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+}
+
+.input-group-text {
+    border-radius: 10px 0 0 10px;
+    border: 1px solid #E5E5EA;
+    border-right: none;
+}
+
+.form-control.border-start-0 {
+    border-radius: 0 10px 10px 0;
+}
+
+/* Buttons */
+.btn {
+    border-radius: 10px;
+    font-weight: 600;
+    padding: 12px 24px;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.btn-primary {
+    background: var(--apple-blue);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #0056b3;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+}
+
+.btn-outline-secondary {
+    color: var(--apple-gray);
+    border: 1px solid #E5E5EA;
+    background: white;
+}
+
+.btn-outline-secondary:hover {
+    background: var(--apple-light-gray);
+    border-color: var(--apple-gray);
+    color: var(--apple-dark-gray);
+}
+
+/* Hero Section */
+.hero-icon {
+    margin-bottom: 1rem;
+}
+
+.display-5 {
+    font-weight: 700;
+    color: var(--apple-dark-gray);
+}
+
+/* Feature Cards */
+.feature-card {
+    padding: 1.5rem;
+    text-align: center;
+    border-radius: var(--border-radius);
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.feature-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+    margin-bottom: 1rem;
+}
+
+.feature-card h5 {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--apple-dark-gray);
+}
+
+/* File Cards */
+.file-card {
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.file-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+}
+
+.file-preview {
+    height: 200px;
+    background: var(--apple-light-gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.file-preview-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.file-card:hover .file-preview-img {
+    transform: scale(1.05);
+}
+
+.file-icon {
+    opacity: 0.6;
+}
+
+.file-meta {
+    font-size: 0.875rem;
+}
+
+/* Alerts */
+.alert {
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 1rem 1.25rem;
+}
+
+.alert-success {
+    background: rgba(52, 199, 89, 0.1);
+    color: var(--apple-green);
+}
+
+.alert-danger {
+    background: rgba(255, 59, 48, 0.1);
+    color: var(--apple-red);
+}
+
+/* Badges */
+.badge {
+    border-radius: 20px;
+    font-weight: 500;
+    padding: 0.5rem 0.75rem;
+}
+
+/* Footer */
+footer {
+    background: var(--apple-light-gray) !important;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Loading States */
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+}
+
+/* Results Header Responsiveness */
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.header-content {
+    flex: 1;
+}
+
+.header-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+/* Video Preview Styles */
+.video-preview {
+    position: relative;
+    height: 200px;
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.file-preview-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.video-preview:hover .video-overlay {
+    opacity: 1;
+}
+
+/* Audio Preview */
+.audio-preview {
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 8px;
+}
+
+.audio-preview audio {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+/* Category Filter */
+.category-filter {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.category-filter .btn-group {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.category-filter .btn {
+    border-radius: 25px;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+    border: 2px solid #E5E5EA;
+    background: white;
+    color: var(--apple-gray);
+}
+
+.category-filter .btn.active {
+    background: var(--apple-blue);
+    border-color: var(--apple-blue);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+}
+
+.category-filter .btn:hover:not(.active) {
+    border-color: var(--apple-blue);
+    color: var(--apple-blue);
+    transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    .display-5 {
+        font-size: 2rem;
+    }
+    
+    .btn-lg {
+        padding: 1rem 1.5rem;
+    }
+    
+    .file-preview {
+        height: 150px;
+    }
+    
+    .video-preview {
+        height: 150px;
+    }
+    
+    /* Stack header buttons vertically on mobile */
+    .results-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+    
+    .header-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .header-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    /* Make category filter responsive */
+    .category-filter .btn-group {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .category-filter .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--apple-light-gray);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--apple-gray);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #6D6D70;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Text Selection */
+::selection {
+    background: rgba(0, 122, 255, 0.2);
+}
+
+/* Focus Styles */
+*:focus {
+    outline: none;
+}
+
+.btn:focus,
+.form-control:focus {
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
+}
+
+/* Card Hover Effects */
+.card {
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Link Styles */
+a {
+    color: var(--apple-blue);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: #0056b3;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    color: var(--apple-dark-gray);
+}
+
+.text-muted {
+    color: var(--apple-gray) !important;
+}
+
+/* Layout Utilities */
+.rounded-xl {
+    border-radius: var(--border-radius);
+}
+
+/* Dark mode support preparation */
+@media (prefers-color-scheme: dark) {
+    /* Keep light theme for now as requested */
+}

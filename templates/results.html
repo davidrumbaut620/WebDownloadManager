@@ -1,0 +1,248 @@
+{% extends "base.html" %}
+
+{% block title %}Download Results - {{ analysis.url }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <!-- Header -->
+        <div class="results-header mb-4">
+            <div class="header-content">
+                <h2 class="mb-1">Analysis Results</h2>
+                <p class="text-muted mb-0">
+                    <i class="fas fa-link me-2"></i>
+                    <a href="{{ analysis.url }}" target="_blank" class="text-decoration-none">{{ analysis.url }}</a>
+                </p>
+            </div>
+            <div class="header-actions">
+                <a href="{{ url_for('index') }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>New Analysis
+                </a>
+                {% if grouped_files.images or grouped_files.videos or grouped_files.audio or grouped_files.documents or grouped_files.other %}
+                <a href="{{ url_for('download_all', analysis_id=analysis.id) }}" class="btn btn-primary">
+                    <i class="fas fa-download me-2"></i>Download All
+                </a>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if analysis.status == 'error' %}
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                Error analyzing website: {{ analysis.error_message }}
+            </div>
+        {% elif not (grouped_files.images or grouped_files.videos or grouped_files.audio or grouped_files.documents or grouped_files.other) %}
+            <div class="card apple-card text-center py-5">
+                <div class="card-body">
+                    <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                    <h4>No Files Found</h4>
+                    <p class="text-muted">We couldn't find any downloadable files on this website.</p>
+                    <a href="{{ url_for('index') }}" class="btn btn-primary">
+                        <i class="fas fa-arrow-left me-2"></i>Try Another URL
+                    </a>
+                </div>
+            </div>
+        {% else %}
+            <!-- Category Filter -->
+            <div class="category-filter mb-4">
+                <div class="btn-group" role="group" aria-label="File type filter">
+                    <button type="button" class="btn btn-outline-primary active" data-filter="all">
+                        <i class="fas fa-list me-2"></i>All Files
+                    </button>
+                    {% if grouped_files.images %}
+                    <button type="button" class="btn btn-outline-primary" data-filter="images">
+                        <i class="fas fa-images me-2"></i>Images ({{ grouped_files.images|length }})
+                    </button>
+                    {% endif %}
+                    {% if grouped_files.videos %}
+                    <button type="button" class="btn btn-outline-primary" data-filter="videos">
+                        <i class="fas fa-video me-2"></i>Videos ({{ grouped_files.videos|length }})
+                    </button>
+                    {% endif %}
+                    {% if grouped_files.audio %}
+                    <button type="button" class="btn btn-outline-primary" data-filter="audio">
+                        <i class="fas fa-music me-2"></i>Audio ({{ grouped_files.audio|length }})
+                    </button>
+                    {% endif %}
+                    {% if grouped_files.documents %}
+                    <button type="button" class="btn btn-outline-primary" data-filter="documents">
+                        <i class="fas fa-file-alt me-2"></i>Documents ({{ grouped_files.documents|length }})
+                    </button>
+                    {% endif %}
+                    {% if grouped_files.other %}
+                    <button type="button" class="btn btn-outline-primary" data-filter="other">
+                        <i class="fas fa-file me-2"></i>Other ({{ grouped_files.other|length }})
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+            <!-- File Categories -->
+            {% for category, files in grouped_files.items() %}
+                {% if files %}
+                    <div class="mb-5 file-category" data-category="{{ category }}">
+                        <div class="d-flex align-items-center mb-3">
+                            <h4 class="mb-0 me-3">
+                                {% if category == 'images' %}
+                                    <i class="fas fa-images text-info me-2"></i>Images
+                                {% elif category == 'videos' %}
+                                    <i class="fas fa-video text-danger me-2"></i>Videos
+                                {% elif category == 'audio' %}
+                                    <i class="fas fa-music text-success me-2"></i>Audio
+                                {% elif category == 'documents' %}
+                                    <i class="fas fa-file-alt text-warning me-2"></i>Documents
+                                {% else %}
+                                    <i class="fas fa-file text-secondary me-2"></i>Other Files
+                                {% endif %}
+                            </h4>
+                            <span class="badge bg-light text-dark">{{ files|length }}</span>
+                        </div>
+
+                        <div class="row">
+                            {% for file in files %}
+                                <div class="col-md-6 col-lg-4 mb-4">
+                                    <div class="card file-card h-100">
+                                        <div class="file-preview">
+                                            {% if file.file_type == 'image' and file.preview_path %}
+                                                <img src="{{ url_for('preview_file', file_id=file.id) }}" 
+                                                     alt="{{ file.filename }}" 
+                                                     class="file-preview-img"
+                                                     loading="lazy">
+                                            {% elif file.file_type == 'video' %}
+                                                <div class="video-preview">
+                                                    <video class="file-preview-video" controls preload="metadata">
+                                                        <source src="{{ file.url }}" type="{{ file.mime_type or 'video/mp4' }}">
+                                                        Your browser does not support the video tag.
+                                                    </video>
+                                                    <div class="video-overlay">
+                                                        <i class="fas fa-play-circle fa-3x text-white"></i>
+                                                    </div>
+                                                </div>
+                                            {% elif file.file_type == 'audio' %}
+                                                <div class="audio-preview">
+                                                    <i class="fas fa-music fa-2x mb-2"></i>
+                                                    <h6>{{ file.filename }}</h6>
+                                                    <audio controls class="w-100">
+                                                        <source src="{{ file.url }}" type="{{ file.mime_type or 'audio/mpeg' }}">
+                                                        Your browser does not support the audio element.
+                                                    </audio>
+                                                </div>
+                                            {% else %}
+                                                <div class="file-icon">
+                                                    {% if file.file_type == 'video' %}
+                                                        <i class="fas fa-play-circle fa-3x text-danger"></i>
+                                                    {% elif file.file_type == 'audio' %}
+                                                        <i class="fas fa-music fa-3x text-success"></i>
+                                                    {% elif file.file_type == 'document' %}
+                                                        <i class="fas fa-file-alt fa-3x text-warning"></i>
+                                                    {% else %}
+                                                        <i class="fas fa-file fa-3x text-secondary"></i>
+                                                    {% endif %}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        
+                                        <div class="card-body p-3">
+                                            <h6 class="card-title text-truncate" title="{{ file.filename }}">
+                                                {{ file.filename }}
+                                            </h6>
+                                            
+                                            <div class="file-meta mb-3">
+                                                {% if file.file_size %}
+                                                    <small class="text-muted">
+                                                        <i class="fas fa-weight-hanging me-1"></i>
+                                                        {{ file.get_file_size_formatted() }}
+                                                    </small>
+                                                {% endif %}
+                                                {% if file.mime_type %}
+                                                    <small class="text-muted d-block">
+                                                        <i class="fas fa-info-circle me-1"></i>
+                                                        {{ file.mime_type }}
+                                                    </small>
+                                                {% endif %}
+                                            </div>
+                                            
+                                            <div class="d-grid">
+                                                <a href="{{ url_for('download_file', file_id=file.id) }}" 
+                                                   class="btn btn-primary btn-sm">
+                                                    <i class="fas fa-download me-2"></i>Download
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Category filtering functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('[data-filter]');
+    const fileCategories = document.querySelectorAll('.file-category');
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const filter = this.getAttribute('data-filter');
+            
+            // Update active button
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Show/hide categories
+            fileCategories.forEach(category => {
+                const categoryType = category.getAttribute('data-category');
+                
+                if (filter === 'all' || filter === categoryType) {
+                    category.style.display = 'block';
+                    category.classList.add('fade-in');
+                } else {
+                    category.style.display = 'none';
+                }
+            });
+        });
+    });
+
+    // Add hover effects and interaction animations
+    document.querySelectorAll('.file-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+
+    // Enhanced video player functionality
+    document.querySelectorAll('video').forEach(video => {
+        video.addEventListener('loadedmetadata', function() {
+            const overlay = this.parentElement.querySelector('.video-overlay');
+            if (overlay) {
+                overlay.style.opacity = '0.6';
+            }
+        });
+
+        video.addEventListener('play', function() {
+            const overlay = this.parentElement.querySelector('.video-overlay');
+            if (overlay) {
+                overlay.style.display = 'none';
+            }
+        });
+
+        video.addEventListener('pause', function() {
+            const overlay = this.parentElement.querySelector('.video-overlay');
+            if (overlay) {
+                overlay.style.display = 'flex';
+            }
+        });
+    });
+});
+</script>
+{% endblock %}
